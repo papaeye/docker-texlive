@@ -1,4 +1,5 @@
-FROM papaeye/texlive:japanese-onbuild
+FROM papaeye/texlive:japanese
 MAINTAINER papaeye@gmail.com
 
-RUN kanji-config-updmap-sys --jis2004 hiragino-pron
+COPY fonts /texlive/texmf-local/fonts/opentype/
+RUN mktexlsr && kanji-config-updmap-sys --jis2004 hiragino-pron

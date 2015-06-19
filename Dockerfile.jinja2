@@ -10,12 +10,22 @@ COPY texlive.profile /tmp/
 RUN mkdir /usr/src/install-tl \
 	&& wget -qO- http://mirrors.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz \
 		| tar -xzC /usr/src/install-tl --strip-components=1 \
-	&& /usr/src/install-tl/install-tl -profile /tmp/texlive.profile -scheme basic \
+	&& /usr/src/install-tl/install-tl -profile /tmp/texlive.profile -scheme {{ scheme }} \
 	&& rm /tmp/texlive.profile \
 	&& rm -rf /usr/src/install-tl
 
 ENV PATH /texlive/bin/x86_64-linux:$PATH
 
+{%- if packages %}
+
+RUN tlmgr install \
+{%- for package in packages %}
+		{{ package }} \
+{%- endfor %}
+	&& rm /texlive/tlpkg/texlive.tlpdb.*
+{%- endif %}
+
 RUN mkdir /data
 VOLUME ["/data"]
 WORKDIR /data
+

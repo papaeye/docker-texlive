@@ -10,7 +10,7 @@ COPY texlive.profile /tmp/
 RUN mkdir /usr/src/install-tl \
 	&& wget -qO- http://mirrors.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz \
 		| tar -xzC /usr/src/install-tl --strip-components=1 \
-	&& /usr/src/install-tl/install-tl -profile /tmp/texlive.profile -scheme basic \
+	&& /usr/src/install-tl/install-tl -profile /tmp/texlive.profile -scheme full \
 	&& rm /tmp/texlive.profile \
 	&& rm -rf /usr/src/install-tl
 
