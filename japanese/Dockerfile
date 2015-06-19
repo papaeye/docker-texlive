@@ -1,24 +1,10 @@
-FROM debian:jessie
+FROM papaeye/texlive:basic
 MAINTAINER papaeye@gmail.com
-
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends perl wget \
-	&& rm -rf /var/lib/apt/lists/*
-
-COPY texlive.profile /tmp/
-
-RUN mkdir /usr/src/install-tl \
-	&& wget -qO- http://mirrors.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz \
-		| tar -xzC /usr/src/install-tl --strip-components=1 \
-	&& /usr/src/install-tl/install-tl -profile /tmp/texlive.profile -scheme basic \
-	&& rm /tmp/texlive.profile \
-	&& rm -rf /usr/src/install-tl
-
-ENV PATH /texlive/bin/x86_64-linux:$PATH
 
 RUN tlmgr install \
 		collection-fontsrecommended \
 		collection-latexrecommended \
+		# collection-langcjk
 		adobemapping \
 		cjk-gs-integrate \
 		cjkpunct \
@@ -26,6 +12,7 @@ RUN tlmgr install \
 		dnp \
 		xcjk2uni \
 		convbkmk \
+		# collection-langjapanese
 		japanese \
 		japanese-otf \
 		japanese-otf-uptex \
@@ -39,10 +26,7 @@ RUN tlmgr install \
 		pxjahyper \
 		pxrubrica \
 		uptex \
+		# useful packages (for me)
 		bera \
 		etoolbox \
 	&& rm /texlive/tlpkg/texlive.tlpdb.*
-
-RUN mkdir /data
-VOLUME ["/data"]
-WORKDIR /data

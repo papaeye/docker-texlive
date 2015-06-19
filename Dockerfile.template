@@ -16,16 +16,6 @@ RUN mkdir /usr/src/install-tl \
 
 ENV PATH /texlive/bin/x86_64-linux:$PATH
 
-{%- if packages %}
-
-RUN tlmgr install \
-{%- for package in packages %}
-		{{ package }} \
-{%- endfor %}
-	&& rm /texlive/tlpkg/texlive.tlpdb.*
-{%- endif %}
-
 RUN mkdir /data
 VOLUME ["/data"]
 WORKDIR /data
-
