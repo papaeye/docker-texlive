@@ -17,5 +17,4 @@ RUN mkdir /usr/src/install-tl \
 ENV PATH /texlive/bin/x86_64-linux:$PATH
 
 RUN mkdir /data
-VOLUME ["/data"]
 WORKDIR /data
